@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ContentView: View {
     @State private var snowflakes: [Snowflake] = []
     let snowflakeSize: CGFloat = 20
@@ -14,7 +16,10 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
+                LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]),
+                               startPoint: .top,
+                               endPoint: .bottom)
+                               .edgesIgnoringSafeArea(.all)
 
                 ForEach(snowflakes) { snowflake in
                     Image(systemName: "snow")
@@ -76,26 +81,26 @@ class Coordinator {
     private func updateSnowflakesPosition() {
         snowflakes.indices.forEach { index in
             var snowflake = snowflakes[index]
-            
+
             let speed: CGFloat = 5
             let wind: CGFloat = CGFloat.random(in: -0.5...0.5)
-            
+
             let deltaY = speed
             let deltaX = wind * deltaY
-            
+
             snowflake.x += deltaX
             snowflake.y += deltaY
-            
+
             let maxX = size.width + snowflakeSize / 2
             if snowflake.x > maxX {
                 snowflake.x = -snowflakeSize / 2
             }
-            
+
             let maxY = size.height + snowflakeSize / 2
             if snowflake.y > maxY {
                 snowflake.y = -snowflakeSize / 2
             }
-            
+
             snowflakes[index] = snowflake
         }
     }
